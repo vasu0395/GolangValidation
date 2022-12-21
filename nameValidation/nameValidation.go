@@ -3,26 +3,53 @@ package main
 import (
 	"fmt"
 	"strings"
+
+	"github.com/forPelevin/gomoji"
 )
 
-// this function checks name validation based on lengths.
-func isValidName(name string ) bool {
+// This function checks name validation based on lengths. ( here we're using name length [3,15])
+func isValidNameBasedOnLength(name string ) bool {
 	name = strings.TrimSpace(name)
-	if len(name)>=5 && len(name)<=15{
+	if len(name)>=3 && len(name)<=15{
 		return true
 	}
 	return false
 }
 
-func print(name string) {
-	if isValidName(name){
-		fmt.Println(fmt.Sprintf("%s is a valid name",name))
-	}else{
-		fmt.Println(fmt.Sprintf("%s is not a valid name",name))
-	}
+// This function return bool value i.e True when name contains emoji else False
+func isEmojiPresent(name string) bool {
+	res := gomoji.ContainsEmoji(name)
+	return res
 }
 
 func main() {
-	print("vasu chauhan")
-	print("invalidnameinvalidnameinvalidname")
+	// Samples for length checks..
+	worstCaseSampleNameForLengthChecks := "qweritheweoewfjobewfvwoeveib"
+	validSampleNameForLengthChecks := "vasu chauhan"
+	
+	if !isValidNameBasedOnLength(worstCaseSampleNameForLengthChecks){
+		fmt.Println(worstCaseSampleNameForLengthChecks + " is not valid name based on length 😔.")
+	}
+	
+	if isValidNameBasedOnLength(validSampleNameForLengthChecks){
+		fmt.Println(validSampleNameForLengthChecks + " is valid name based on length 😊.")
+	}
+
+	// Samples for emoji checks..
+	worstCaseSampleNameForEmojiChecks := "vasu 😊 chauhan"
+	validSampleNameForEmojiChecks := "vasu"
+
+	if isEmojiPresent(worstCaseSampleNameForEmojiChecks){
+		fmt.Println(worstCaseSampleNameForEmojiChecks + " is not valid name as it contains emoji 😔.")
+	}
+	
+	if !isEmojiPresent(validSampleNameForEmojiChecks){
+		fmt.Println(validSampleNameForEmojiChecks + " is valid name 😊.")
+	}
 }
+
+// Sample outPut :- 
+// qweritheweoewfjobewfvwoeveib is not valid name based on length 😔.
+// vasu chauhan is valid name based on length 😊.
+// vasu 😊 chauhan is not valid name as it contains emoji 😔.
+// vasu is valid name 😊.
