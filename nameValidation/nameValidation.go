@@ -22,6 +22,18 @@ func isEmojiPresent(name string) bool {
 	return res
 }
 
+// This Function stops reserved name from request
+func isNameContainsReservedWords(name string,mp map[string]int) bool {
+	name = strings.TrimSpace(name)
+	nameArray := strings.Split(name," ")
+	for _,value := range nameArray{
+		if _ , ok := mp[value]; ok {
+			return true
+		}
+	}
+	return false
+}
+
 func main() {
 	// Samples for length checks..
 	worstCaseSampleNameForLengthChecks := "qweritheweoewfjobewfvwoeveib"
@@ -45,6 +57,17 @@ func main() {
 	
 	if !isEmojiPresent(validSampleNameForEmojiChecks){
 		fmt.Println(validSampleNameForEmojiChecks + " is valid name 😊.")
+	}
+
+	reservedWords := map[string]int{
+		"badWord" : 1,
+		"foul" : 1,
+	}
+
+	name := "badWord foul animal"
+	if isNameContainsReservedWords(name,reservedWords){
+		fmt.Println(name + " is not valid name as it contains reserved words 😔.")
+
 	}
 }
 
